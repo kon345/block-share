@@ -13,6 +13,7 @@
 		BA14BDF32A808CE900738C6F /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = BA14BDF12A808CE900738C6F /* Main.storyboard */; };
 		BA14BDF52A808CE900738C6F /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = BA14BDF42A808CE900738C6F /* Assets.xcassets */; };
 		BA14BDF82A808CE900738C6F /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = BA14BDF62A808CE900738C6F /* LaunchScreen.storyboard */; };
+		BA14BE232A809FD000738C6F /* MainPageVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = BA14BE222A809FD000738C6F /* MainPageVC.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -24,6 +25,7 @@
 		BA14BDF42A808CE900738C6F /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		BA14BDF72A808CE900738C6F /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		BA14BDF92A808CE900738C6F /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		BA14BE222A809FD000738C6F /* MainPageVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainPageVC.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -56,6 +58,7 @@
 		BA14BDEA2A808CE900738C6F /* blockShare */ = {
 			isa = PBXGroup;
 			children = (
+				BA14BE1F2A809F7600738C6F /* ViewControllers */,
 				BA14BDEB2A808CE900738C6F /* AppDelegate.swift */,
 				BA14BDED2A808CE900738C6F /* SceneDelegate.swift */,
 				BA14BDEF2A808CE900738C6F /* ViewController.swift */,
@@ -65,6 +68,14 @@
 				BA14BDF92A808CE900738C6F /* Info.plist */,
 			);
 			path = blockShare;
+			sourceTree = "<group>";
+		};
+		BA14BE1F2A809F7600738C6F /* ViewControllers */ = {
+			isa = PBXGroup;
+			children = (
+				BA14BE222A809FD000738C6F /* MainPageVC.swift */,
+			);
+			path = ViewControllers;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -140,6 +151,7 @@
 			files = (
 				BA14BDF02A808CE900738C6F /* ViewController.swift in Sources */,
 				BA14BDEC2A808CE900738C6F /* AppDelegate.swift in Sources */,
+				BA14BE232A809FD000738C6F /* MainPageVC.swift in Sources */,
 				BA14BDEE2A808CE900738C6F /* SceneDelegate.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
