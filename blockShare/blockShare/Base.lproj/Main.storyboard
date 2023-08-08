@@ -8,10 +8,10 @@
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
     <scenes>
-        <!--View Controller-->
+        <!--Main PageVC-->
         <scene sceneID="t3c-TR-JMj">
             <objects>
-                <viewController id="HoC-ZX-x4x" customClass="ViewController" customModule="tesaa" customModuleProvider="target" sceneMemberID="viewController">
+                <viewController id="HoC-ZX-x4x" customClass="MainPageVC" customModule="blockShare" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="de8-NQ-dhq">
                         <rect key="frame" x="0.0" y="0.0" width="393" height="852"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
@@ -41,7 +41,7 @@
                                         <state key="normal" title="Button"/>
                                         <buttonConfiguration key="configuration" style="tinted" title="登入"/>
                                         <connections>
-                                            <action selector="loginBtnPressed:" destination="HoC-ZX-x4x" eventType="touchUpInside" id="vlG-44-5NE"/>
+                                            <action selector="loginBtnPressed:" destination="HoC-ZX-x4x" eventType="touchUpInside" id="Xzy-Pn-PPU"/>
                                         </connections>
                                     </button>
                                     <textField opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="248" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="line" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="bhw-Is-P3t">
@@ -73,32 +73,13 @@
                                     <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="-1" estimatedSectionHeaderHeight="-1" sectionFooterHeight="-1" estimatedSectionFooterHeight="-1" translatesAutoresizingMaskIntoConstraints="NO" id="9PA-HG-zGk">
                                         <rect key="frame" x="0.0" y="0.0" width="353" height="466.33333333333331"/>
                                         <color key="backgroundColor" systemColor="systemBackgroundColor"/>
-                                        <prototypes>
-                                            <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" insetsLayoutMarginsFromSafeArea="NO" selectionStyle="blue" hidesAccessoryWhenEditing="NO" indentationLevel="1" indentationWidth="0.0" reuseIdentifier="groupTitleCell" textLabel="33S-Z9-AOp" style="IBUITableViewCellStyleDefault" id="n8M-sd-Csr">
-                                                <rect key="frame" x="0.0" y="50" width="353" height="43.666667938232422"/>
-                                                <autoresizingMask key="autoresizingMask"/>
-                                                <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" insetsLayoutMarginsFromSafeArea="NO" tableViewCell="n8M-sd-Csr" id="S9M-Ml-Hmx">
-                                                    <rect key="frame" x="0.0" y="0.0" width="353" height="43.666667938232422"/>
-                                                    <autoresizingMask key="autoresizingMask"/>
-                                                    <subviews>
-                                                        <label opaque="NO" multipleTouchEnabled="YES" contentMode="left" insetsLayoutMarginsFromSafeArea="NO" text="Title" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="33S-Z9-AOp">
-                                                            <rect key="frame" x="20" y="0.0" width="313" height="43.666667938232422"/>
-                                                            <autoresizingMask key="autoresizingMask"/>
-                                                            <fontDescription key="fontDescription" type="system" pointSize="0.0"/>
-                                                            <nil key="textColor"/>
-                                                            <nil key="highlightedColor"/>
-                                                        </label>
-                                                    </subviews>
-                                                </tableViewCellContentView>
-                                            </tableViewCell>
-                                        </prototypes>
                                     </tableView>
                                     <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Oam-Mg-tdj">
                                         <rect key="frame" x="0.0" y="476.33333333333331" width="111" height="35"/>
                                         <state key="normal" title="Button"/>
                                         <buttonConfiguration key="configuration" style="tinted" title="輸入群組碼"/>
                                         <connections>
-                                            <action selector="groupCodeBtnPressed:" destination="HoC-ZX-x4x" eventType="touchUpInside" id="UlY-yN-AE1"/>
+                                            <action selector="groupCodeBtnPressed:" destination="HoC-ZX-x4x" eventType="touchUpInside" id="go6-cD-4Gv"/>
                                         </connections>
                                     </button>
                                     <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="opg-7q-dSW">
@@ -106,7 +87,7 @@
                                         <state key="normal" title="Button"/>
                                         <buttonConfiguration key="configuration" style="tinted" title="創建新群組"/>
                                         <connections>
-                                            <action selector="createGroupBtnPressed:" destination="HoC-ZX-x4x" eventType="touchUpInside" id="G9e-5r-rP4"/>
+                                            <action selector="createGroupBtnPressed:" destination="HoC-ZX-x4x" eventType="touchUpInside" id="saw-kn-HKd"/>
                                         </connections>
                                     </button>
                                 </subviews>
@@ -138,15 +119,32 @@
                     </view>
                     <connections>
                         <outlet property="AccountInputArea" destination="bhw-Is-P3t" id="o3y-F0-zgO"/>
-                        <outlet property="GroupListTable" destination="9PA-HG-zGk" id="ZBb-Et-0yG"/>
-                        <outlet property="GroupSelectView" destination="2aI-01-QaI" id="xOE-RC-Ws1"/>
-                        <outlet property="LoginGroupView" destination="w4U-l9-mbC" id="9jQ-Kp-HK3"/>
                         <outlet property="PasswordInputArea" destination="DXE-Mc-gKP" id="E8U-4J-QTC"/>
+                        <outlet property="accountInputArea" destination="bhw-Is-P3t" id="5i2-nG-aFA"/>
+                        <outlet property="groupListTableView" destination="9PA-HG-zGk" id="kEh-4J-fWi"/>
+                        <outlet property="groupSelectionView" destination="2aI-01-QaI" id="erh-zl-SKQ"/>
+                        <outlet property="loginGroupView" destination="w4U-l9-mbC" id="Kfa-aI-5DX"/>
+                        <outlet property="passwordInputArea" destination="DXE-Mc-gKP" id="IQv-mI-N2B"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="tk4-0D-Nde" sceneMemberID="firstResponder"/>
             </objects>
             <point key="canvasLocation" x="-20.610687022900763" y="-16.197183098591552"/>
+        </scene>
+        <!--View Controller-->
+        <scene sceneID="2OG-2K-A2q">
+            <objects>
+                <viewController id="ljv-Qx-MiJ" sceneMemberID="viewController">
+                    <view key="view" contentMode="scaleToFill" id="mX8-bK-3SB">
+                        <rect key="frame" x="0.0" y="0.0" width="393" height="852"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <viewLayoutGuide key="safeArea" id="ski-rd-b99"/>
+                        <color key="backgroundColor" systemColor="systemBackgroundColor"/>
+                    </view>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="3v4-IF-S83" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="775" y="-16"/>
         </scene>
     </scenes>
     <resources>
