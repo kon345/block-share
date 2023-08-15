@@ -27,6 +27,7 @@ class MainPageVC: UIViewController {
     @IBOutlet weak var loginGroupView: UIView!
     // 群組列表區塊
     @IBOutlet weak var groupSelectionView: UIView!
+    @IBOutlet weak var groupSelectionTopConstraint: NSLayoutConstraint!
     @IBOutlet weak var groupSelectionBtmConstraint: NSLayoutConstraint!
     // 帳號輸入框
     @IBOutlet weak var accountInputArea: UITextField!
@@ -57,6 +58,7 @@ class MainPageVC: UIViewController {
         loginGroupView.isHidden = true
         groupSelectionView.isHidden = false
         // 群組列表上移
+        groupSelectionTopConstraint.isActive = false
         groupSelectionView.topAnchor.constraint(equalTo: self.view.topAnchor, constant: moveConstants.groupSelectionNewTop.rawValue).isActive = true
         groupSelectionBtmConstraint.constant = 200
     }
@@ -64,14 +66,14 @@ class MainPageVC: UIViewController {
     // 輸入群組碼按鈕按下
     @IBAction func groupCodeBtnPressed(_ sender: Any) {
         let enterCodeAlert = UIAlertController(title: textMessage.enterCodeTitle.rawValue, message: textMessage.enterCodeMessage.rawValue, preferredStyle: .alert)
+        // TODO: autoLayout報錯
+        enterCodeAlert.addTextField()
         let confirm = UIAlertAction(title: textMessage.send.rawValue, style: .default) { action in
-            // TODO: 確定之後送出加入群組request
+           // TODO: 送出加入群組request
         }
         let cancel = UIAlertAction(title: textMessage.cancel.rawValue, style: .cancel)
-        enterCodeAlert.addTextField()
         enterCodeAlert.addAction(confirm)
         enterCodeAlert.addAction(cancel)
-        
         self.present(enterCodeAlert, animated: true)
     }
     
@@ -137,4 +139,8 @@ extension MainPageVC: UITableViewDataSource, UITableViewDelegate{
         return groupCell
     }
  
+    func tableView(_ tableView: UITableView, canMoveRowAt indexPath: IndexPath) -> Bool {
+        return false
+    }
+
 }
