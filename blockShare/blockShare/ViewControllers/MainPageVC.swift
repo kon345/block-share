@@ -9,6 +9,7 @@ import UIKit
 
 class MainPageVC: UIViewController {
     var data = ["1","3","4"]
+    var groupData : [Group] = []
     
     enum textMessage : String {
         case enterCodeTitle = "群組碼"
@@ -49,11 +50,25 @@ class MainPageVC: UIViewController {
         // 設定群組列表delegate
         groupListTableView.dataSource = self
         groupListTableView.delegate = self
+        
+    }
+    
+    override func viewDidAppear(_ animated: Bool) {
+        super.viewDidAppear(animated)
+        
+        if  UserHelper.shared.userID != 0{
+            GroupHelper.shared.getGroupList(userID: UserHelper.shared.userID) { data in
+                self.groupData = data
+                print(self.groupData)
+                DispatchQueue.main.async {
+                    self.groupListTableView.reloadData()
+                }
+            }
+        }
     }
     
     // 登入按鈕按下
     @IBAction func loginBtnPressed(_ sender: Any) {
-        
         // 隱藏登入顯示群組列表
         loginGroupView.isHidden = true
         groupSelectionView.isHidden = false
@@ -61,6 +76,19 @@ class MainPageVC: UIViewController {
         groupSelectionTopConstraint.isActive = false
         groupSelectionView.topAnchor.constraint(equalTo: self.view.topAnchor, constant: moveConstants.groupSelectionNewTop.rawValue).isActive = true
         groupSelectionBtmConstraint.constant = 200
+        if let account = accountInputArea.text, account != "", let password = passwordInputArea.text, password != ""{
+            UserHelper.shared.createUser(account: account, password: password) { result in
+                if(result == false){
+                    print("create user failed!")
+                }
+                Task{
+                    // 取得userID
+                    UserHelper.shared.getUserID(account: account) { userID in
+                        UserHelper.shared.userID = userID.userID
+                    }
+                }
+            }
+        }
     }
     
     // 輸入群組碼按鈕按下
@@ -80,7 +108,7 @@ class MainPageVC: UIViewController {
     // 創建新群組按鈕按下
     @IBAction func createGroupBtnPressed(_ sender: Any) {
     }
-    /*
+    
     // MARK: - Navigation
 
     // In a storyboard-based application, you will often want to do a little preparation before navigation
@@ -88,7 +116,6 @@ class MainPageVC: UIViewController {
         // Get the new view controller using segue.destination.
         // Pass the selected object to the new view controller.
     }
-    */
 
 }
 
@@ -127,14 +154,13 @@ extension MainPageVC: UITextFieldDelegate{
 
 extension MainPageVC: UITableViewDataSource, UITableViewDelegate{
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return data.count
+        return groupData.count
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let groupCell = groupListTableView.dequeueReusableCell(withIdentifier: "GroupCell", for: indexPath)
-        
         var config = groupCell.defaultContentConfiguration()
-        config.text = data[indexPath.row]
+        config.text = groupData[indexPath.row].groupName
         groupCell.contentConfiguration = config
         return groupCell
     }

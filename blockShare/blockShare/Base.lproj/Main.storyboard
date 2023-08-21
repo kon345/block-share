@@ -11,7 +11,7 @@
         <!--Main PageVC-->
         <scene sceneID="t3c-TR-JMj">
             <objects>
-                <viewController id="HoC-ZX-x4x" customClass="MainPageVC" customModule="blockShare" customModuleProvider="target" sceneMemberID="viewController">
+                <viewController storyboardIdentifier="MainPageVC" id="HoC-ZX-x4x" customClass="MainPageVC" customModule="blockShare" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="de8-NQ-dhq">
                         <rect key="frame" x="0.0" y="0.0" width="393" height="852"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
@@ -39,7 +39,7 @@
                                     <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="VF9-IJ-dqg">
                                         <rect key="frame" x="117" y="87.666666666666657" width="59" height="35"/>
                                         <state key="normal" title="Button"/>
-                                        <buttonConfiguration key="configuration" style="tinted" title="登入"/>
+                                        <buttonConfiguration key="configuration" style="tinted" title="註冊"/>
                                         <connections>
                                             <action selector="loginBtnPressed:" destination="HoC-ZX-x4x" eventType="touchUpInside" id="Xzy-Pn-PPU"/>
                                         </connections>
@@ -157,7 +157,7 @@
         <!--Create GroupVC-->
         <scene sceneID="4N2-c5-Y97">
             <objects>
-                <viewController id="HSO-Ix-rew" customClass="CreateGroupVC" customModule="blockShare" customModuleProvider="target" sceneMemberID="viewController">
+                <viewController storyboardIdentifier="CreateGroupVC" id="HSO-Ix-rew" customClass="CreateGroupVC" customModule="blockShare" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="Slr-jH-oLl">
                         <rect key="frame" x="0.0" y="0.0" width="393" height="852"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
@@ -177,7 +177,7 @@
                                         <textInputTraits key="textInputTraits"/>
                                     </textField>
                                     <toolbar opaque="NO" clearsContextBeforeDrawing="NO" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="w7q-E4-d8z">
-                                        <rect key="frame" x="5" y="39" width="348" height="44"/>
+                                        <rect key="frame" x="5" y="38.666666666666657" width="348" height="44"/>
                                         <items>
                                             <barButtonItem systemItem="edit" id="Qfy-D0-W97">
                                                 <connections>

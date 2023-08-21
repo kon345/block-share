@@ -67,6 +67,18 @@ class CreateGroupVC: UIViewController {
     }
     
     @IBAction func confirmCreateBtnPressed(_ sender: Any) {
+        guard let text = groupNameInputArea.text else{
+            return
+        }
+        GroupHelper.shared.createGroup(name: text, category: groupCategory, userID: UserHelper.shared.userID) { result in
+            if(result == false){
+                print("create group failed!")
+                return
+            }
+            DispatchQueue.main.async{
+                self.navigationController?.popViewController(animated: true)
+            }
+        }
     }
     /*
     // MARK: - Navigation
