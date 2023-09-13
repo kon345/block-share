@@ -16,6 +16,12 @@
 		BA4E663C2A8B18F700835F3C /* Alamofire in Frameworks */ = {isa = PBXBuildFile; productRef = BA4E663B2A8B18F700835F3C /* Alamofire */; };
 		BA4E663E2A8B21B600835F3C /* groupHelper.swift in Sources */ = {isa = PBXBuildFile; fileRef = BA4E663D2A8B21B600835F3C /* groupHelper.swift */; };
 		BA4E66402A8B6B5C00835F3C /* Communicator.swift in Sources */ = {isa = PBXBuildFile; fileRef = BA4E663F2A8B6B5C00835F3C /* Communicator.swift */; };
+		BA7BCF442AB1A8210050A0DF /* SwiftLinkPreview in Frameworks */ = {isa = PBXBuildFile; productRef = BA7BCF432AB1A8210050A0DF /* SwiftLinkPreview */; };
+		BA7BCF472AB1AAFA0050A0DF /* iOSDropDown in Frameworks */ = {isa = PBXBuildFile; productRef = BA7BCF462AB1AAFA0050A0DF /* iOSDropDown */; };
+		BA7BCF4B2AB1ACC10050A0DF /* AddBlockVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = BA7BCF4A2AB1ACC10050A0DF /* AddBlockVC.swift */; };
+		BA8262302AA07966000E7F76 /* BlockDrawer.swift in Sources */ = {isa = PBXBuildFile; fileRef = BA82622F2AA07966000E7F76 /* BlockDrawer.swift */; };
+		BA93D9642A9F4170006BC9D3 /* BlockResource.swift in Sources */ = {isa = PBXBuildFile; fileRef = BA93D9632A9F4170006BC9D3 /* BlockResource.swift */; };
+		BA93D9662A9F41C6006BC9D3 /* DraggableBlockView.swift in Sources */ = {isa = PBXBuildFile; fileRef = BA93D9652A9F41C6006BC9D3 /* DraggableBlockView.swift */; };
 		BA97E2442A8214FE006B8136 /* MainPageVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = BA97E2432A8214FE006B8136 /* MainPageVC.swift */; };
 		BA97E2482A82198E006B8136 /* UserHelper.swift in Sources */ = {isa = PBXBuildFile; fileRef = BA97E2472A82198E006B8136 /* UserHelper.swift */; };
 		BA97E24A2A821A68006B8136 /* GroupContentVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = BA97E2492A821A68006B8136 /* GroupContentVC.swift */; };
@@ -33,6 +39,10 @@
 		BA4E66382A8B0CC200835F3C /* commonHelper.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = commonHelper.swift; sourceTree = "<group>"; };
 		BA4E663D2A8B21B600835F3C /* groupHelper.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = groupHelper.swift; sourceTree = "<group>"; };
 		BA4E663F2A8B6B5C00835F3C /* Communicator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Communicator.swift; sourceTree = "<group>"; };
+		BA7BCF4A2AB1ACC10050A0DF /* AddBlockVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddBlockVC.swift; sourceTree = "<group>"; };
+		BA82622F2AA07966000E7F76 /* BlockDrawer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BlockDrawer.swift; sourceTree = "<group>"; };
+		BA93D9632A9F4170006BC9D3 /* BlockResource.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BlockResource.swift; sourceTree = "<group>"; };
+		BA93D9652A9F41C6006BC9D3 /* DraggableBlockView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DraggableBlockView.swift; sourceTree = "<group>"; };
 		BA97E2432A8214FE006B8136 /* MainPageVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainPageVC.swift; sourceTree = "<group>"; };
 		BA97E2472A82198E006B8136 /* UserHelper.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = UserHelper.swift; sourceTree = "<group>"; };
 		BA97E2492A821A68006B8136 /* GroupContentVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GroupContentVC.swift; sourceTree = "<group>"; };
@@ -44,7 +54,9 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				BA7BCF472AB1AAFA0050A0DF /* iOSDropDown in Frameworks */,
 				BA4E663C2A8B18F700835F3C /* Alamofire in Frameworks */,
+				BA7BCF442AB1A8210050A0DF /* SwiftLinkPreview in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -70,6 +82,8 @@
 		BA14BDEA2A808CE900738C6F /* blockShare */ = {
 			isa = PBXGroup;
 			children = (
+				BA93D9622A9F414E006BC9D3 /* Resources */,
+				BA93D95F2A9F403E006BC9D3 /* Model */,
 				BA97E2422A821402006B8136 /* helper */,
 				BA14BE1F2A809F7600738C6F /* ViewControllers */,
 				BA14BDEB2A808CE900738C6F /* AppDelegate.swift */,
@@ -88,8 +102,26 @@
 				BA97E2432A8214FE006B8136 /* MainPageVC.swift */,
 				BA97E2492A821A68006B8136 /* GroupContentVC.swift */,
 				BAE419CC2A85C874008712FC /* CreateGroupVC.swift */,
+				BA7BCF4A2AB1ACC10050A0DF /* AddBlockVC.swift */,
 			);
 			path = ViewControllers;
+			sourceTree = "<group>";
+		};
+		BA93D95F2A9F403E006BC9D3 /* Model */ = {
+			isa = PBXGroup;
+			children = (
+				BA93D9652A9F41C6006BC9D3 /* DraggableBlockView.swift */,
+				BA82622F2AA07966000E7F76 /* BlockDrawer.swift */,
+			);
+			path = Model;
+			sourceTree = "<group>";
+		};
+		BA93D9622A9F414E006BC9D3 /* Resources */ = {
+			isa = PBXGroup;
+			children = (
+				BA93D9632A9F4170006BC9D3 /* BlockResource.swift */,
+			);
+			path = Resources;
 			sourceTree = "<group>";
 		};
 		BA97E2422A821402006B8136 /* helper */ = {
@@ -121,6 +153,8 @@
 			name = blockShare;
 			packageProductDependencies = (
 				BA4E663B2A8B18F700835F3C /* Alamofire */,
+				BA7BCF432AB1A8210050A0DF /* SwiftLinkPreview */,
+				BA7BCF462AB1AAFA0050A0DF /* iOSDropDown */,
 			);
 			productName = blockShare;
 			productReference = BA14BDE82A808CE900738C6F /* blockShare.app */;
@@ -152,6 +186,8 @@
 			mainGroup = BA14BDDF2A808CE900738C6F;
 			packageReferences = (
 				BA4E663A2A8B18F700835F3C /* XCRemoteSwiftPackageReference "Alamofire" */,
+				BA7BCF422AB1A8210050A0DF /* XCRemoteSwiftPackageReference "SwiftLinkPreview" */,
+				BA7BCF452AB1AAFA0050A0DF /* XCRemoteSwiftPackageReference "iOSDropDown" */,
 			);
 			productRefGroup = BA14BDE92A808CE900738C6F /* Products */;
 			projectDirPath = "";
@@ -183,12 +219,16 @@
 				BA4E66402A8B6B5C00835F3C /* Communicator.swift in Sources */,
 				BA97E2442A8214FE006B8136 /* MainPageVC.swift in Sources */,
 				BA4E663E2A8B21B600835F3C /* groupHelper.swift in Sources */,
+				BA93D9642A9F4170006BC9D3 /* BlockResource.swift in Sources */,
+				BA8262302AA07966000E7F76 /* BlockDrawer.swift in Sources */,
 				BA4E66392A8B0CC200835F3C /* commonHelper.swift in Sources */,
 				BA14BDEC2A808CE900738C6F /* AppDelegate.swift in Sources */,
 				BAE419CD2A85C874008712FC /* CreateGroupVC.swift in Sources */,
+				BA93D9662A9F41C6006BC9D3 /* DraggableBlockView.swift in Sources */,
 				BA97E2482A82198E006B8136 /* UserHelper.swift in Sources */,
 				BA14BDEE2A808CE900738C6F /* SceneDelegate.swift in Sources */,
 				BA97E24A2A821A68006B8136 /* GroupContentVC.swift in Sources */,
+				BA7BCF4B2AB1ACC10050A0DF /* AddBlockVC.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -264,7 +304,7 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				IPHONEOS_DEPLOYMENT_TARGET = 16.4;
+				IPHONEOS_DEPLOYMENT_TARGET = 15.5;
 				MTL_ENABLE_DEBUG_INFO = INCLUDE_SOURCE;
 				MTL_FAST_MATH = YES;
 				ONLY_ACTIVE_ARCH = YES;
@@ -318,7 +358,7 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				IPHONEOS_DEPLOYMENT_TARGET = 16.4;
+				IPHONEOS_DEPLOYMENT_TARGET = 15.5;
 				MTL_ENABLE_DEBUG_INFO = NO;
 				MTL_FAST_MATH = YES;
 				SDKROOT = iphoneos;
@@ -335,6 +375,7 @@
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_TEAM = N9643UQKT5;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = blockShare/Info.plist;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
@@ -362,6 +403,7 @@
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_TEAM = N9643UQKT5;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = blockShare/Info.plist;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
@@ -414,6 +456,22 @@
 				minimumVersion = 5.0.0;
 			};
 		};
+		BA7BCF422AB1A8210050A0DF /* XCRemoteSwiftPackageReference "SwiftLinkPreview" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/LeonardoCardoso/SwiftLinkPreview#swift-package-manager";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 3.0.0;
+			};
+		};
+		BA7BCF452AB1AAFA0050A0DF /* XCRemoteSwiftPackageReference "iOSDropDown" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/jriosdev/iOSDropDown";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 0.4.0;
+			};
+		};
 /* End XCRemoteSwiftPackageReference section */
 
 /* Begin XCSwiftPackageProductDependency section */
@@ -421,6 +479,16 @@
 			isa = XCSwiftPackageProductDependency;
 			package = BA4E663A2A8B18F700835F3C /* XCRemoteSwiftPackageReference "Alamofire" */;
 			productName = Alamofire;
+		};
+		BA7BCF432AB1A8210050A0DF /* SwiftLinkPreview */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = BA7BCF422AB1A8210050A0DF /* XCRemoteSwiftPackageReference "SwiftLinkPreview" */;
+			productName = SwiftLinkPreview;
+		};
+		BA7BCF462AB1AAFA0050A0DF /* iOSDropDown */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = BA7BCF452AB1AAFA0050A0DF /* XCRemoteSwiftPackageReference "iOSDropDown" */;
+			productName = iOSDropDown;
 		};
 /* End XCSwiftPackageProductDependency section */
 	};

@@ -8,11 +8,10 @@
 import UIKit
 
 class CreateGroupVC: UIViewController {
-    // 分類色表
-    let categoryColor = [UIColor.blue,UIColor.red,UIColor.green,UIColor.orange,UIColor.purple,UIColor.yellow]
     // 分類方塊大小
     let categoryBlockSize = CGSize(width: 30, height: 30)
     
+    // 文字資料
     enum textMessage : String {
         case fullCategoryTitle = "分類已滿"
         case fullCategoryＭessage = "已達分類上限"
@@ -39,6 +38,7 @@ class CreateGroupVC: UIViewController {
     }
     
     @IBAction func addBtnPressed(_ sender: Any) {
+        // 分類數量上限限制
         if groupCategory.count >= categoryColor.count{
             let fullCategoryAlert = UIAlertController(title: textMessage.fullCategoryTitle.rawValue, message: textMessage.fullCategoryＭessage.rawValue, preferredStyle: .alert)
             let cancel = UIAlertAction(title: textMessage.cancel.rawValue, style: .cancel)
@@ -46,6 +46,7 @@ class CreateGroupVC: UIViewController {
             self.present(fullCategoryAlert, animated: true)
             return
         }
+        // 新增分類alert
         let addCategoryAlert = UIAlertController(title: textMessage.enterCategoryTitle.rawValue, message: textMessage.enterCategoryＭessage.rawValue, preferredStyle: .alert)
         // TODO: autoLayout報錯
         addCategoryAlert.addTextField()
@@ -142,3 +143,4 @@ extension CreateGroupVC: UITableViewDataSource, UITableViewDelegate{
         return image
     }
 }
+
