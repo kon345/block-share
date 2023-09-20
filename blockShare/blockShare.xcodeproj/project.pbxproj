@@ -17,13 +17,25 @@
 		BA4E663E2A8B21B600835F3C /* groupHelper.swift in Sources */ = {isa = PBXBuildFile; fileRef = BA4E663D2A8B21B600835F3C /* groupHelper.swift */; };
 		BA4E66402A8B6B5C00835F3C /* Communicator.swift in Sources */ = {isa = PBXBuildFile; fileRef = BA4E663F2A8B6B5C00835F3C /* Communicator.swift */; };
 		BA7BCF442AB1A8210050A0DF /* SwiftLinkPreview in Frameworks */ = {isa = PBXBuildFile; productRef = BA7BCF432AB1A8210050A0DF /* SwiftLinkPreview */; };
-		BA7BCF472AB1AAFA0050A0DF /* iOSDropDown in Frameworks */ = {isa = PBXBuildFile; productRef = BA7BCF462AB1AAFA0050A0DF /* iOSDropDown */; };
 		BA7BCF4B2AB1ACC10050A0DF /* AddBlockVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = BA7BCF4A2AB1ACC10050A0DF /* AddBlockVC.swift */; };
 		BA8262302AA07966000E7F76 /* BlockDrawer.swift in Sources */ = {isa = PBXBuildFile; fileRef = BA82622F2AA07966000E7F76 /* BlockDrawer.swift */; };
+		BA935F2B2AB7FE3300BD80F3 /* UIImage+Resize.swift in Sources */ = {isa = PBXBuildFile; fileRef = BA935F2A2AB7FE3300BD80F3 /* UIImage+Resize.swift */; };
+		BA935F2D2AB827D800BD80F3 /* noMainPreviewImage.png in Resources */ = {isa = PBXBuildFile; fileRef = BA935F2C2AB827D800BD80F3 /* noMainPreviewImage.png */; };
+		BA935F342AB83C4700BD80F3 /* dislikeIcon.png in Resources */ = {isa = PBXBuildFile; fileRef = BA935F322AB83C4700BD80F3 /* dislikeIcon.png */; };
+		BA935F352AB83C4700BD80F3 /* likeIcon.png in Resources */ = {isa = PBXBuildFile; fileRef = BA935F332AB83C4700BD80F3 /* likeIcon.png */; };
 		BA93D9642A9F4170006BC9D3 /* BlockResource.swift in Sources */ = {isa = PBXBuildFile; fileRef = BA93D9632A9F4170006BC9D3 /* BlockResource.swift */; };
 		BA93D9662A9F41C6006BC9D3 /* DraggableBlockView.swift in Sources */ = {isa = PBXBuildFile; fileRef = BA93D9652A9F41C6006BC9D3 /* DraggableBlockView.swift */; };
+		BA96E9562AB2A2B100D9D4C7 /* iOSDropDown in Frameworks */ = {isa = PBXBuildFile; productRef = BA96E9552AB2A2B100D9D4C7 /* iOSDropDown */; };
+		BA96E95E2AB2B4DD00D9D4C7 /* PurpleRect.png in Resources */ = {isa = PBXBuildFile; fileRef = BA96E9582AB2B4DD00D9D4C7 /* PurpleRect.png */; };
+		BA96E95F2AB2B4DD00D9D4C7 /* RedRect.png in Resources */ = {isa = PBXBuildFile; fileRef = BA96E9592AB2B4DD00D9D4C7 /* RedRect.png */; };
+		BA96E9602AB2B4DD00D9D4C7 /* YellowRect.png in Resources */ = {isa = PBXBuildFile; fileRef = BA96E95A2AB2B4DD00D9D4C7 /* YellowRect.png */; };
+		BA96E9612AB2B4DD00D9D4C7 /* OrangeRect.png in Resources */ = {isa = PBXBuildFile; fileRef = BA96E95B2AB2B4DD00D9D4C7 /* OrangeRect.png */; };
+		BA96E9622AB2B4DD00D9D4C7 /* GreenRect.png in Resources */ = {isa = PBXBuildFile; fileRef = BA96E95C2AB2B4DD00D9D4C7 /* GreenRect.png */; };
+		BA96E9632AB2B4DD00D9D4C7 /* BlueRect.png in Resources */ = {isa = PBXBuildFile; fileRef = BA96E95D2AB2B4DD00D9D4C7 /* BlueRect.png */; };
+		BA96E9652AB2E46300D9D4C7 /* BlockContentVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = BA96E9642AB2E46300D9D4C7 /* BlockContentVC.swift */; };
+		BA96E9672AB2E9DB00D9D4C7 /* blockHelper.swift in Sources */ = {isa = PBXBuildFile; fileRef = BA96E9662AB2E9DB00D9D4C7 /* blockHelper.swift */; };
 		BA97E2442A8214FE006B8136 /* MainPageVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = BA97E2432A8214FE006B8136 /* MainPageVC.swift */; };
-		BA97E2482A82198E006B8136 /* UserHelper.swift in Sources */ = {isa = PBXBuildFile; fileRef = BA97E2472A82198E006B8136 /* UserHelper.swift */; };
+		BA97E2482A82198E006B8136 /* userHelper.swift in Sources */ = {isa = PBXBuildFile; fileRef = BA97E2472A82198E006B8136 /* userHelper.swift */; };
 		BA97E24A2A821A68006B8136 /* GroupContentVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = BA97E2492A821A68006B8136 /* GroupContentVC.swift */; };
 		BAE419CD2A85C874008712FC /* CreateGroupVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = BAE419CC2A85C874008712FC /* CreateGroupVC.swift */; };
 /* End PBXBuildFile section */
@@ -41,10 +53,22 @@
 		BA4E663F2A8B6B5C00835F3C /* Communicator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Communicator.swift; sourceTree = "<group>"; };
 		BA7BCF4A2AB1ACC10050A0DF /* AddBlockVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddBlockVC.swift; sourceTree = "<group>"; };
 		BA82622F2AA07966000E7F76 /* BlockDrawer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BlockDrawer.swift; sourceTree = "<group>"; };
+		BA935F2A2AB7FE3300BD80F3 /* UIImage+Resize.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "UIImage+Resize.swift"; sourceTree = "<group>"; };
+		BA935F2C2AB827D800BD80F3 /* noMainPreviewImage.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = noMainPreviewImage.png; sourceTree = "<group>"; };
+		BA935F322AB83C4700BD80F3 /* dislikeIcon.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = dislikeIcon.png; sourceTree = "<group>"; };
+		BA935F332AB83C4700BD80F3 /* likeIcon.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = likeIcon.png; sourceTree = "<group>"; };
 		BA93D9632A9F4170006BC9D3 /* BlockResource.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BlockResource.swift; sourceTree = "<group>"; };
 		BA93D9652A9F41C6006BC9D3 /* DraggableBlockView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DraggableBlockView.swift; sourceTree = "<group>"; };
+		BA96E9582AB2B4DD00D9D4C7 /* PurpleRect.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = PurpleRect.png; sourceTree = "<group>"; };
+		BA96E9592AB2B4DD00D9D4C7 /* RedRect.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = RedRect.png; sourceTree = "<group>"; };
+		BA96E95A2AB2B4DD00D9D4C7 /* YellowRect.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = YellowRect.png; sourceTree = "<group>"; };
+		BA96E95B2AB2B4DD00D9D4C7 /* OrangeRect.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = OrangeRect.png; sourceTree = "<group>"; };
+		BA96E95C2AB2B4DD00D9D4C7 /* GreenRect.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = GreenRect.png; sourceTree = "<group>"; };
+		BA96E95D2AB2B4DD00D9D4C7 /* BlueRect.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = BlueRect.png; sourceTree = "<group>"; };
+		BA96E9642AB2E46300D9D4C7 /* BlockContentVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BlockContentVC.swift; sourceTree = "<group>"; };
+		BA96E9662AB2E9DB00D9D4C7 /* blockHelper.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = blockHelper.swift; sourceTree = "<group>"; };
 		BA97E2432A8214FE006B8136 /* MainPageVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainPageVC.swift; sourceTree = "<group>"; };
-		BA97E2472A82198E006B8136 /* UserHelper.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = UserHelper.swift; sourceTree = "<group>"; };
+		BA97E2472A82198E006B8136 /* userHelper.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = userHelper.swift; sourceTree = "<group>"; };
 		BA97E2492A821A68006B8136 /* GroupContentVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GroupContentVC.swift; sourceTree = "<group>"; };
 		BAE419CC2A85C874008712FC /* CreateGroupVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CreateGroupVC.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -54,7 +78,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				BA7BCF472AB1AAFA0050A0DF /* iOSDropDown in Frameworks */,
+				BA96E9562AB2A2B100D9D4C7 /* iOSDropDown in Frameworks */,
 				BA4E663C2A8B18F700835F3C /* Alamofire in Frameworks */,
 				BA7BCF442AB1A8210050A0DF /* SwiftLinkPreview in Frameworks */,
 			);
@@ -82,6 +106,7 @@
 		BA14BDEA2A808CE900738C6F /* blockShare */ = {
 			isa = PBXGroup;
 			children = (
+				BA96E9572AB2B4CD00D9D4C7 /* assets */,
 				BA93D9622A9F414E006BC9D3 /* Resources */,
 				BA93D95F2A9F403E006BC9D3 /* Model */,
 				BA97E2422A821402006B8136 /* helper */,
@@ -103,6 +128,7 @@
 				BA97E2492A821A68006B8136 /* GroupContentVC.swift */,
 				BAE419CC2A85C874008712FC /* CreateGroupVC.swift */,
 				BA7BCF4A2AB1ACC10050A0DF /* AddBlockVC.swift */,
+				BA96E9642AB2E46300D9D4C7 /* BlockContentVC.swift */,
 			);
 			path = ViewControllers;
 			sourceTree = "<group>";
@@ -124,13 +150,31 @@
 			path = Resources;
 			sourceTree = "<group>";
 		};
+		BA96E9572AB2B4CD00D9D4C7 /* assets */ = {
+			isa = PBXGroup;
+			children = (
+				BA935F322AB83C4700BD80F3 /* dislikeIcon.png */,
+				BA935F332AB83C4700BD80F3 /* likeIcon.png */,
+				BA96E95D2AB2B4DD00D9D4C7 /* BlueRect.png */,
+				BA96E95C2AB2B4DD00D9D4C7 /* GreenRect.png */,
+				BA96E95B2AB2B4DD00D9D4C7 /* OrangeRect.png */,
+				BA96E9582AB2B4DD00D9D4C7 /* PurpleRect.png */,
+				BA96E9592AB2B4DD00D9D4C7 /* RedRect.png */,
+				BA96E95A2AB2B4DD00D9D4C7 /* YellowRect.png */,
+				BA935F2C2AB827D800BD80F3 /* noMainPreviewImage.png */,
+			);
+			path = assets;
+			sourceTree = "<group>";
+		};
 		BA97E2422A821402006B8136 /* helper */ = {
 			isa = PBXGroup;
 			children = (
-				BA97E2472A82198E006B8136 /* UserHelper.swift */,
+				BA935F2A2AB7FE3300BD80F3 /* UIImage+Resize.swift */,
+				BA97E2472A82198E006B8136 /* userHelper.swift */,
 				BA4E66382A8B0CC200835F3C /* commonHelper.swift */,
 				BA4E663D2A8B21B600835F3C /* groupHelper.swift */,
 				BA4E663F2A8B6B5C00835F3C /* Communicator.swift */,
+				BA96E9662AB2E9DB00D9D4C7 /* blockHelper.swift */,
 			);
 			path = helper;
 			sourceTree = "<group>";
@@ -154,7 +198,7 @@
 			packageProductDependencies = (
 				BA4E663B2A8B18F700835F3C /* Alamofire */,
 				BA7BCF432AB1A8210050A0DF /* SwiftLinkPreview */,
-				BA7BCF462AB1AAFA0050A0DF /* iOSDropDown */,
+				BA96E9552AB2A2B100D9D4C7 /* iOSDropDown */,
 			);
 			productName = blockShare;
 			productReference = BA14BDE82A808CE900738C6F /* blockShare.app */;
@@ -187,7 +231,7 @@
 			packageReferences = (
 				BA4E663A2A8B18F700835F3C /* XCRemoteSwiftPackageReference "Alamofire" */,
 				BA7BCF422AB1A8210050A0DF /* XCRemoteSwiftPackageReference "SwiftLinkPreview" */,
-				BA7BCF452AB1AAFA0050A0DF /* XCRemoteSwiftPackageReference "iOSDropDown" */,
+				BA96E9542AB2A2B100D9D4C7 /* XCRemoteSwiftPackageReference "iOSDropDown" */,
 			);
 			productRefGroup = BA14BDE92A808CE900738C6F /* Products */;
 			projectDirPath = "";
@@ -203,9 +247,18 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				BA935F2D2AB827D800BD80F3 /* noMainPreviewImage.png in Resources */,
+				BA935F352AB83C4700BD80F3 /* likeIcon.png in Resources */,
 				BA14BDF82A808CE900738C6F /* LaunchScreen.storyboard in Resources */,
 				BA14BDF52A808CE900738C6F /* Assets.xcassets in Resources */,
 				BA14BDF32A808CE900738C6F /* Main.storyboard in Resources */,
+				BA96E95E2AB2B4DD00D9D4C7 /* PurpleRect.png in Resources */,
+				BA96E9632AB2B4DD00D9D4C7 /* BlueRect.png in Resources */,
+				BA96E9612AB2B4DD00D9D4C7 /* OrangeRect.png in Resources */,
+				BA96E95F2AB2B4DD00D9D4C7 /* RedRect.png in Resources */,
+				BA935F342AB83C4700BD80F3 /* dislikeIcon.png in Resources */,
+				BA96E9602AB2B4DD00D9D4C7 /* YellowRect.png in Resources */,
+				BA96E9622AB2B4DD00D9D4C7 /* GreenRect.png in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -218,15 +271,18 @@
 			files = (
 				BA4E66402A8B6B5C00835F3C /* Communicator.swift in Sources */,
 				BA97E2442A8214FE006B8136 /* MainPageVC.swift in Sources */,
+				BA96E9652AB2E46300D9D4C7 /* BlockContentVC.swift in Sources */,
 				BA4E663E2A8B21B600835F3C /* groupHelper.swift in Sources */,
 				BA93D9642A9F4170006BC9D3 /* BlockResource.swift in Sources */,
 				BA8262302AA07966000E7F76 /* BlockDrawer.swift in Sources */,
 				BA4E66392A8B0CC200835F3C /* commonHelper.swift in Sources */,
 				BA14BDEC2A808CE900738C6F /* AppDelegate.swift in Sources */,
 				BAE419CD2A85C874008712FC /* CreateGroupVC.swift in Sources */,
+				BA96E9672AB2E9DB00D9D4C7 /* blockHelper.swift in Sources */,
 				BA93D9662A9F41C6006BC9D3 /* DraggableBlockView.swift in Sources */,
-				BA97E2482A82198E006B8136 /* UserHelper.swift in Sources */,
+				BA97E2482A82198E006B8136 /* userHelper.swift in Sources */,
 				BA14BDEE2A808CE900738C6F /* SceneDelegate.swift in Sources */,
+				BA935F2B2AB7FE3300BD80F3 /* UIImage+Resize.swift in Sources */,
 				BA97E24A2A821A68006B8136 /* GroupContentVC.swift in Sources */,
 				BA7BCF4B2AB1ACC10050A0DF /* AddBlockVC.swift in Sources */,
 			);
@@ -464,7 +520,7 @@
 				minimumVersion = 3.0.0;
 			};
 		};
-		BA7BCF452AB1AAFA0050A0DF /* XCRemoteSwiftPackageReference "iOSDropDown" */ = {
+		BA96E9542AB2A2B100D9D4C7 /* XCRemoteSwiftPackageReference "iOSDropDown" */ = {
 			isa = XCRemoteSwiftPackageReference;
 			repositoryURL = "https://github.com/jriosdev/iOSDropDown";
 			requirement = {
@@ -485,9 +541,9 @@
 			package = BA7BCF422AB1A8210050A0DF /* XCRemoteSwiftPackageReference "SwiftLinkPreview" */;
 			productName = SwiftLinkPreview;
 		};
-		BA7BCF462AB1AAFA0050A0DF /* iOSDropDown */ = {
+		BA96E9552AB2A2B100D9D4C7 /* iOSDropDown */ = {
 			isa = XCSwiftPackageProductDependency;
-			package = BA7BCF452AB1AAFA0050A0DF /* XCRemoteSwiftPackageReference "iOSDropDown" */;
+			package = BA96E9542AB2A2B100D9D4C7 /* XCRemoteSwiftPackageReference "iOSDropDown" */;
 			productName = iOSDropDown;
 		};
 /* End XCSwiftPackageProductDependency section */

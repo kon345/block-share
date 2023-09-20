@@ -10,6 +10,7 @@ import UIKit
 
 // 分類色表
 let categoryColor = [UIColor.blue,UIColor.red,UIColor.green,UIColor.orange,UIColor.purple,UIColor.yellow]
+let categoryImage = ["BlueRect", "RedRect", "GreenRect", "OrangeRect", "PurpleRect", "YellowRect"]
 // 方塊大小
 let squareSize: CGFloat = 25
 // 方塊類型

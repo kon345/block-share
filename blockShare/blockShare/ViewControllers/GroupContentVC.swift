@@ -8,14 +8,16 @@
 import UIKit
 
 class GroupContentVC: UIViewController {
+    // 新增的方塊
     var currentBlock: basicBlock!
-    var touchLocation: CGPoint!
     
+    // 當前方塊的左上角
     var topLeftPoint: CGPoint{
         let boardFrame = boardCollectionView.convert(boardCollectionView.frame, to: self.view)
         return CGPoint(x: currentBlock.frame.minX - boardFrame.minX, y: currentBlock.frame.minY - boardFrame.minY)
     }
     
+    // 版面
     @IBOutlet weak var boardScrollView: UIScrollView!
     @IBOutlet weak var boardCollectionView: UICollectionView!
     override func viewDidLoad() {
@@ -50,6 +52,7 @@ class GroupContentVC: UIViewController {
         }
     }
     
+    // 自動對齊左上方格
     func stickToTopLeftCell(currentCenter: CGPoint){
         guard let cell = findTopLeftBoardCell(x: topLeftPoint.x, y: topLeftPoint.y) else {
             return
@@ -59,7 +62,7 @@ class GroupContentVC: UIViewController {
         }
     }
     
-    
+    // 找到左上方格
     func findTopLeftBoardCell(x: CGFloat, y:CGFloat) -> UICollectionViewCell?{
         for cell in boardCollectionView.visibleCells{
             let cellFrame = cell.frame
@@ -88,13 +91,11 @@ class GroupContentVC: UIViewController {
 extension GroupContentVC: UIScrollViewDelegate{
     func scrollViewDidEndDragging(_ scrollView: UIScrollView, willDecelerate decelerate: Bool) {
         if !decelerate{
-            print("scroll ended")
             stickToTopLeftCell(currentCenter: currentBlock.center)
         }
     }
     
     func scrollViewDidEndDecelerating(_ scrollView: UIScrollView) {
-        print("scroll ended decelerate")
         stickToTopLeftCell(currentCenter: currentBlock.center)
     }
 }
@@ -102,12 +103,12 @@ extension GroupContentVC: UIScrollViewDelegate{
 // 版面
 extension GroupContentVC: UICollectionViewDataSource, UICollectionViewDelegate{
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
+        // TODO: 根據資料大小決定
         return 500
     }
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "boardSquare", for: indexPath)
-//        cell.backgroundColor = .red
         cell.layer.borderColor = UIColor.blue.cgColor
         cell.layer.borderWidth = 0.5
         return cell
