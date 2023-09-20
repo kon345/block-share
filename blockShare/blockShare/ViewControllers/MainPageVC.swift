@@ -9,7 +9,6 @@ import UIKit
 
 class MainPageVC: UIViewController {
     var data = ["1","3","4"]
-    var groupData : [Group] = []
     
     enum textMessage : String {
         case enterCodeTitle = "群組碼"
@@ -30,6 +29,8 @@ class MainPageVC: UIViewController {
     @IBOutlet weak var groupSelectionView: UIView!
     @IBOutlet weak var groupSelectionTopConstraint: NSLayoutConstraint!
     @IBOutlet weak var groupSelectionBtmConstraint: NSLayoutConstraint!
+    // 暱稱輸入框
+    @IBOutlet weak var usernameInputArea: UITextField!
     // 帳號輸入框
     @IBOutlet weak var accountInputArea: UITextField!
     // 密碼輸入框
@@ -55,11 +56,18 @@ class MainPageVC: UIViewController {
     
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
-        
-        if  UserHelper.shared.userID != 0{
-            GroupHelper.shared.getGroupList(userID: UserHelper.shared.userID) { data in
-                self.groupData = data
-                print(self.groupData)
+        // 有登入（有userID)api取得加入的群組列表
+        if  userHelper.shared.userID != 0{
+            GroupHelper.shared.getGroupList(userID: userHelper.shared.userID) { result, error in
+                if let error = error{
+                    print("Get group list Failed: \(error)")
+                    return
+                }
+                guard let groupList = result?.content else{
+                    assertionFailure("No group list")
+                    return
+                }
+                GroupHelper.shared.groupListData = groupList
                 DispatchQueue.main.async {
                     self.groupListTableView.reloadData()
                 }
@@ -67,8 +75,8 @@ class MainPageVC: UIViewController {
         }
     }
     
-    // 登入按鈕按下
-    @IBAction func loginBtnPressed(_ sender: Any) {
+    // 註冊按鈕按下
+    @IBAction func registerBtnPressed(_ sender: Any) {
         // 隱藏登入顯示群組列表
         loginGroupView.isHidden = true
         groupSelectionView.isHidden = false
@@ -77,14 +85,25 @@ class MainPageVC: UIViewController {
         groupSelectionView.topAnchor.constraint(equalTo: self.view.topAnchor, constant: moveConstants.groupSelectionNewTop.rawValue).isActive = true
         groupSelectionBtmConstraint.constant = 200
         if let account = accountInputArea.text, account != "", let password = passwordInputArea.text, password != ""{
-            UserHelper.shared.createUser(account: account, password: password) { result in
-                if(result == false){
-                    print("create user failed!")
+            userHelper.shared.createUser(account: account, password: password) { result, error in
+                if let error = error{
+                    print("Create User Failed: \(error)")
+                    return
                 }
+                print("create user succeeded")
                 Task{
                     // 取得userID
-                    UserHelper.shared.getUserID(account: account) { userID in
-                        UserHelper.shared.userID = userID.userID
+                    userHelper.shared.getUserID(account:account){ result,error in
+                        if let error = error {
+                            print("Get UserID Failed: \(error)")
+                            return
+                        }
+                        guard let userID = result?.content?.userID else{
+                            print("no UserID received")
+                            return
+                        }
+                        userHelper.shared.userID = userID
+                        print(userHelper.shared.userID)
                     }
                 }
             }
@@ -154,13 +173,13 @@ extension MainPageVC: UITextFieldDelegate{
 
 extension MainPageVC: UITableViewDataSource, UITableViewDelegate{
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return groupData.count
+        return GroupHelper.shared.groupListData.count
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let groupCell = groupListTableView.dequeueReusableCell(withIdentifier: "GroupCell", for: indexPath)
         var config = groupCell.defaultContentConfiguration()
-        config.text = groupData[indexPath.row].groupName
+        config.text = GroupHelper.shared.groupListData[indexPath.row].groupName
         groupCell.contentConfiguration = config
         return groupCell
     }
@@ -168,5 +187,8 @@ extension MainPageVC: UITableViewDataSource, UITableViewDelegate{
     func tableView(_ tableView: UITableView, canMoveRowAt indexPath: IndexPath) -> Bool {
         return false
     }
-
+    
+    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        GroupHelper.shared.currentGroupIndex = indexPath.row
+    }
 }

@@ -71,9 +71,9 @@ class CreateGroupVC: UIViewController {
         guard let text = groupNameInputArea.text else{
             return
         }
-        GroupHelper.shared.createGroup(name: text, category: groupCategory, userID: UserHelper.shared.userID) { result in
-            if(result == false){
-                print("create group failed!")
+        GroupHelper.shared.createGroup(name: text, category: groupCategory, userID: userHelper.shared.userID) { result, error in
+            if let error = error{
+                print("Create group error: \(error)")
                 return
             }
             DispatchQueue.main.async{
