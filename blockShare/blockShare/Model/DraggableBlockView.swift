@@ -22,7 +22,7 @@ protocol block{
 struct Square{
     var row: Int
     var column: Int
-    init(_ row: Int = 0, _ column: Int = 0){
+    init(_ column: Int = 0, _ row: Int = 0){
         self.row = row
         self.column = column
     }
@@ -67,6 +67,17 @@ struct blockRotation{
         squares.thirdSquare = thirdSquare
         squares.fourthSquare = fourthSquare
     }
+    
+    // 計算方塊差距
+    func getDiffs() -> [(Int,Int)]{
+        let diff2x = squares.secondSquare.row - squares.firstSquare.row
+        let diff2y = squares.secondSquare.column - squares.firstSquare.column
+        let diff3x = squares.thirdSquare.row - squares.firstSquare.row
+        let diff3y = squares.thirdSquare.column - squares.firstSquare.column
+        let diff4x = squares.fourthSquare.row - squares.firstSquare.row
+        let diff4y = squares.fourthSquare.column - squares.firstSquare.column
+        return[(0,0),(diff2x,diff2y),(diff3x,diff3y),(diff4x,diff4y)]
+    }
 }
 
 class basicBlock: UIImageView, block{
@@ -103,7 +114,7 @@ class basicBlock: UIImageView, block{
         self.setSquare()
     }
     
-   
+    
     func setFrame(){
         self.frame = CGRect(x: startPosition.x, y: startPosition.y, width: CGFloat(blockWidth)*squareSize, height: CGFloat(blockHeight)*squareSize)
     }

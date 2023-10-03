@@ -33,8 +33,5 @@ enum BlockType: CaseIterable{
         }
 }
 
-// 順逆時針
-enum RotateDirection{
-    case clockWise
-    case counterClockWise
-}
+// 版面一行數量
+let boardRowCount = 14

@@ -18,9 +18,10 @@ class AddBlockVC: UIViewController {
     let category = ["影片", "情報", "梗圖"]
     var pickedCategoryIndex = -1
     var inputURL = ""
+    var groupContentVC: GroupContentVC?
     
     
-
+    
     @IBOutlet weak var categoryDropDown: DropDown!
     @IBOutlet weak var categoryImageView: UIImageView!
     @IBOutlet weak var categoryErrorLabel: UILabel!
@@ -29,11 +30,11 @@ class AddBlockVC: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         URLTextField.delegate = self
-//        guard let groupData = GroupHelper.shared.currentGroupData else {
-//            assertionFailure("Cannot get current group Data!")
-//            return
-//        }
-//        catergoryDropDown.optionArray = groupData.category
+        //        guard let groupData = GroupHelper.shared.currentGroupData else {
+        //            assertionFailure("Cannot get current group Data!")
+        //            return
+        //        }
+        //        catergoryDropDown.optionArray = groupData.category
         
         // 設置下拉選單
         categoryDropDown.optionArray = category
@@ -55,7 +56,35 @@ class AddBlockVC: UIViewController {
         
         if(valid1 && valid2){
             // TODO: 送出
-            performSegue(withIdentifier: "addBlockSegue", sender: self)
+            blockHelper.shared.newBlockContent = inputURL
+            blockHelper.shared.newBlockCategoryIndex = pickedCategoryIndex
+            blockHelper.shared.isNewBlockCreated = true
+            self.dismiss(animated: true) {
+                guard let groupContentVC = self.groupContentVC else{
+                    return
+                }
+                groupContentVC.newBlockCreated()
+            }
+        }
+    }
+    
+    @IBAction func showBlockContentBtnPressed(_ sender: Any) {
+        URLTextField.resignFirstResponder()
+        let valid1 = categoryValidation()
+        let valid2 = URLValidation()
+        
+        if(valid1 && valid2){
+            // TODO: 送出
+//            blockHelper.shared.newBlockContent = inputURL
+//            blockHelper.shared.newBlockCategoryIndex = pickedCategoryIndex
+//            blockHelper.shared.isNewBlockCreated = true
+//            self.dismiss(animated: true) {
+//                guard let groupContentVC = self.groupContentVC else{
+//                    return
+//                }
+//                groupContentVC.newBlockCreated()
+//            }
+            self.performSegue(withIdentifier: "showBlockContent", sender: nil)
         }
     }
     
@@ -99,17 +128,14 @@ class AddBlockVC: UIViewController {
     }
     
     // MARK: - Navigation
-
+    
     // In a storyboard-based application, you will often want to do a little preparation before navigation
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
         // Get the new view controller using segue.destination.
-        // Pass the selected object to the new view controller.
-        if segue.identifier == "addBlockSegue", let blockContentVC = segue.destination as? BlockContentVC{
+        if segue.identifier == "showBlockContent", let blockContentVC = segue.destination as? BlockContentVC{
             blockContentVC.URLString = inputURL
         }
     }
-    
-
 }
 
 extension AddBlockVC: UITextFieldDelegate {

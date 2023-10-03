@@ -56,13 +56,13 @@ class BlockContentVC: UIViewController {
             return
         }
         let slp = SwiftLinkPreview(session: URLSession.shared,
-                       workQueue: SwiftLinkPreview.defaultWorkQueue,
-                       responseQueue: DispatchQueue.main,
-                           cache: DisabledCache.instance)
+                                   workQueue: SwiftLinkPreview.defaultWorkQueue,
+                                   responseQueue: DispatchQueue.main,
+                                   cache: DisabledCache.instance)
         
         _ = slp.preview(urlString,
-                                  onSuccess: showPreviewView,
-                                  onError: { error in print("\(error)")})
+                        onSuccess: showPreviewView,
+                        onError: { error in print("\(error)")})
         
     }
     
@@ -129,15 +129,15 @@ class BlockContentVC: UIViewController {
         likeBtn.isHidden = false
         dislikeBtn.isHidden = false
     }
-
+    
     /*
-    // MARK: - Navigation
-
-    // In a storyboard-based application, you will often want to do a little preparation before navigation
-    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-        // Get the new view controller using segue.destination.
-        // Pass the selected object to the new view controller.
-    }
-    */
-
+     // MARK: - Navigation
+     
+     // In a storyboard-based application, you will often want to do a little preparation before navigation
+     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
+     // Get the new view controller using segue.destination.
+     // Pass the selected object to the new view controller.
+     }
+     */
+    
 }
