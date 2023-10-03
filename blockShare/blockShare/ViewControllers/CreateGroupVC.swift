@@ -19,18 +19,26 @@ class CreateGroupVC: UIViewController {
         case enterCategoryＭessage = "請輸入分類名稱"
         case add = "新增"
         case cancel = "取消"
+        case createSuccess = "創立成功"
+        case createFailed = "創立失敗"
     }
     
     
     // 群組分類
     var groupCategory = ["梗圖","影片","情報"]
     
-
     @IBOutlet weak var groupNameInputArea: UITextField!
     @IBOutlet weak var groupCategoryList: UITableView!
+    @IBOutlet weak var createBtn: UIButton!
+    @IBOutlet weak var successFailView: UIView!
+    @IBOutlet weak var successFailLabel: UILabel!
+    @IBOutlet weak var GroupCodeLabel: UILabel!
+    @IBOutlet weak var copyCodeBtn: UIButton!
     override func viewDidLoad() {
         super.viewDidLoad()
-
+        successFailView.isHidden = true
+        copyCodeBtn.isHidden = true
+        
         // 設定delegate & dataSource
         groupNameInputArea.delegate = self
         groupCategoryList.dataSource = self
@@ -48,7 +56,6 @@ class CreateGroupVC: UIViewController {
         }
         // 新增分類alert
         let addCategoryAlert = UIAlertController(title: textMessage.enterCategoryTitle.rawValue, message: textMessage.enterCategoryＭessage.rawValue, preferredStyle: .alert)
-        // TODO: autoLayout報錯
         addCategoryAlert.addTextField()
         let confirm = UIAlertAction(title: textMessage.add.rawValue, style: .default) { action in
             guard let textField = addCategoryAlert.textFields?.first, let text = textField.text else{
@@ -76,21 +83,35 @@ class CreateGroupVC: UIViewController {
                 print("Create group error: \(error)")
                 return
             }
-            DispatchQueue.main.async{
-                self.navigationController?.popViewController(animated: true)
+            
+            guard let groupCode = result?.content?.groupCode else{
+                print("no groupCode received.")
+                return
+            }
+            DispatchQueue.main.async {
+                self.createBtn.isEnabled = false
+                self.successFailView.isHidden = false
+                self.copyCodeBtn.isHidden = false
+                self.successFailLabel.text = textMessage.createSuccess.rawValue
+                self.GroupCodeLabel.text = groupCode
             }
         }
     }
-    /*
-    // MARK: - Navigation
-
-    // In a storyboard-based application, you will often want to do a little preparation before navigation
-    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-        // Get the new view controller using segue.destination.
-        // Pass the selected object to the new view controller.
+    
+    @IBAction func copyCodeBtnPressed(_ sender: Any) {
+        let pasteboard = UIPasteboard.general
+        pasteboard.string = GroupCodeLabel.text
     }
-    */
-
+    /*
+     // MARK: - Navigation
+     
+     // In a storyboard-based application, you will often want to do a little preparation before navigation
+     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
+     // Get the new view controller using segue.destination.
+     // Pass the selected object to the new view controller.
+     }
+     */
+    
 }
 
 extension CreateGroupVC: UITextFieldDelegate{
