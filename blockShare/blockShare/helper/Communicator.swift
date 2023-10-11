@@ -8,7 +8,6 @@
 import Foundation
 import Alamofire
 
-//typealias DoneHandler<T> = (T) -> Void
 typealias DoneHandler<T: Decodable> = (_ result: serverResult<T>?, _ error: Error?) -> Void
 typealias DownloadHandler = (_ data: Data?, _ error: Error?) -> Void
 

@@ -10,7 +10,17 @@ import SwiftLinkPreview
 import Alamofire
 
 class BlockContentVC: UIViewController {
+    
     var URLString: String?
+    
+    enum textMessage: String{
+        case dataLoading = "資料載入中..."
+        case noTitle = "沒有標題"
+        case noDescription = "沒有內文可顯示"
+        case getBlockContentFailed = "取得連結內容失敗"
+        case pleaseCheckYourConnection = "請檢察網路連線"
+        case confirm = "確定"
+    }
     
     @IBOutlet weak var descriptionTextView: UITextView!
     @IBOutlet weak var titleLabel: UILabel!
@@ -21,7 +31,15 @@ class BlockContentVC: UIViewController {
     @IBOutlet weak var dislikeBtn: UIButton!
     override func viewDidLoad() {
         super.viewDidLoad()
-        hideAllUI()
+        
+        // 背景按鈕樣式處理
+        commonHelper.shared.assignbackground(view: self.view, backgroundName: "PageBackground")
+        navigationController?.navigationBar.tintColor = UIColor.purple
+        commonHelper.shared.setPurpleOrangeBtn(button: gotoBtn)
+        
+        // 隱藏讚/爛按鈕
+        likeBtn.isHidden = true
+        dislikeBtn.isHidden = true
         getPreview()
     }
     
@@ -33,41 +51,35 @@ class BlockContentVC: UIViewController {
         UIApplication.shared.open(URL)
     }
     
-    @IBAction func likeBtnPressed(_ sender: Any) {
-    }
-    
-    @IBAction func dislikeBtnPressed(_ sender: Any) {
-    }
-    
-    func hideAllUI(){
-        titleLabel.isHidden = true
-        iconImageView.isHidden = true
-        mainImageView.isHidden = true
-        gotoBtn.isHidden = true
-        descriptionTextView.isHidden = true
-        likeBtn.isHidden = true
-        dislikeBtn.isHidden = true
-    }
-    
     func getPreview(){
         // 確保網址
         guard let urlString = URLString else {
             assertionFailure("No URLString!")
             return
         }
-        let slp = SwiftLinkPreview(session: URLSession.shared,
-                                   workQueue: SwiftLinkPreview.defaultWorkQueue,
-                                   responseQueue: DispatchQueue.main,
-                                   cache: DisabledCache.instance)
         
-        _ = slp.preview(urlString,
-                        onSuccess: showPreviewView,
-                        onError: { error in print("\(error)")})
-        
+        // 嘗試優先使用快取
+        if let cached = blockHelper.shared.slp.cache.slp_getCachedResponse(url: urlString){
+            showPreviewView(result: cached)
+        } else {
+            commonHelper.shared.showLoadingView(viewController: self, loadingText: textMessage.dataLoading.rawValue)
+            blockHelper.shared.slp.preview(urlString,
+                                           onSuccess: showPreviewView,
+                                           onError: { error in DispatchQueue.main.async {
+                let alert = commonHelper.shared.createAlert(title: textMessage.getBlockContentFailed.rawValue, message: textMessage.pleaseCheckYourConnection.rawValue, buttonTitle: textMessage.confirm.rawValue)
+                self.present(alert, animated: true)
+            }
+                let _ = self.navigationController?.popViewController(animated: true)
+            })
+        }
     }
     
     func showPreviewView(result: Response){
-        print("\(result)")
+        guard let url = result.url else{
+            print("url missing!")
+            return
+        }
+        
         // 下載icon
         if let iconURL = result.icon{
             Communicator.shared.downloadImage(urlString: iconURL) { data, error in
@@ -107,6 +119,7 @@ class BlockContentVC: UIViewController {
                 DispatchQueue.main.async {
                     self.mainImageView.image = UIImage(data: data)?.resize(maxEdge: self.mainImageView.frame.width)
                     self.mainImageView.isHidden = false
+                    commonHelper.shared.closeLoadingView()
                 }
             }
         } else {
@@ -115,10 +128,19 @@ class BlockContentVC: UIViewController {
         }
         
         // 標題
-        titleLabel.text = result.title
+        if result.title == nil{
+            titleLabel.text = textMessage.noTitle.rawValue
+        } else {
+            titleLabel.text = result.title
+        }
         titleLabel.isHidden = false
+        
         // 敘述
-        descriptionTextView.text = result.description
+        if result.description == nil{
+            descriptionTextView.text = textMessage.noDescription.rawValue
+        } else {
+            descriptionTextView.text = result.description
+        }
         descriptionTextView.isHidden = false
         
         // 檢查前往
@@ -126,8 +148,7 @@ class BlockContentVC: UIViewController {
             gotoBtn.isHidden = false
         }
         
-        likeBtn.isHidden = false
-        dislikeBtn.isHidden = false
+        blockHelper.shared.slp.cache.slp_setCachedResponse(url: url.absoluteString, response: result)
     }
     
     /*

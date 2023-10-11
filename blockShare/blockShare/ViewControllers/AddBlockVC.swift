@@ -9,42 +9,47 @@ import UIKit
 import iOSDropDown
 
 class AddBlockVC: UIViewController {
+    // 分類
+    var category: [String] = []
+    // 選中的分類
+    var pickedCategoryIndex = -1
+    // 內容網址
+    var inputURL = ""
+    // 上一層的父VC
+    var groupContentVC: GroupContentVC?
+    
     enum textMessage : String {
         case categoryNotPicked = "分類未選擇"
         case URLisEmpty = "網址為空"
         case URLNotValid = "網址錯誤"
     }
-    // TODO: 假資料
-    let category = ["影片", "情報", "梗圖"]
-    var pickedCategoryIndex = -1
-    var inputURL = ""
-    var groupContentVC: GroupContentVC?
-    
-    
     
     @IBOutlet weak var categoryDropDown: DropDown!
     @IBOutlet weak var categoryImageView: UIImageView!
     @IBOutlet weak var categoryErrorLabel: UILabel!
     @IBOutlet weak var URLErrorLabel: UILabel!
     @IBOutlet weak var URLTextField: UITextField!
+    @IBOutlet weak var confirmBtn: UIButton!
     override func viewDidLoad() {
         super.viewDidLoad()
         URLTextField.delegate = self
-        //        guard let groupData = GroupHelper.shared.currentGroupData else {
-        //            assertionFailure("Cannot get current group Data!")
-        //            return
-        //        }
-        //        catergoryDropDown.optionArray = groupData.category
         
+        // 刪掉「無篩選」分類
+        category.removeFirst()
         // 設置下拉選單
         categoryDropDown.optionArray = category
         categoryDropDown.optionImageArray = categoryImage
         categoryDropDown.didSelect { selectedText, index, id in
             self.pickedCategoryIndex = index
             self.categoryImageView.image = UIImage(named: categoryImage[self.pickedCategoryIndex])
+            self.categoryImageView.layer.borderColor = UIColor.black.cgColor
+            self.categoryImageView.layer.borderWidth = 1
             self.categoryErrorLabel.isHidden = true
         }
         
+        // 背景按鈕樣式處理
+        commonHelper.shared.assignbackground(view: self.view, backgroundName: "boyPlayTetris")
+        commonHelper.shared.setPurpleOrangeBtn(button: confirmBtn)
         categoryErrorLabel.isHidden = true
         URLErrorLabel.isHidden = true
     }
@@ -55,7 +60,7 @@ class AddBlockVC: UIViewController {
         let valid2 = URLValidation()
         
         if(valid1 && valid2){
-            // TODO: 送出
+            // 存入blockHelper的新方塊資料
             blockHelper.shared.newBlockContent = inputURL
             blockHelper.shared.newBlockCategoryIndex = pickedCategoryIndex
             blockHelper.shared.isNewBlockCreated = true
@@ -65,26 +70,6 @@ class AddBlockVC: UIViewController {
                 }
                 groupContentVC.newBlockCreated()
             }
-        }
-    }
-    
-    @IBAction func showBlockContentBtnPressed(_ sender: Any) {
-        URLTextField.resignFirstResponder()
-        let valid1 = categoryValidation()
-        let valid2 = URLValidation()
-        
-        if(valid1 && valid2){
-            // TODO: 送出
-//            blockHelper.shared.newBlockContent = inputURL
-//            blockHelper.shared.newBlockCategoryIndex = pickedCategoryIndex
-//            blockHelper.shared.isNewBlockCreated = true
-//            self.dismiss(animated: true) {
-//                guard let groupContentVC = self.groupContentVC else{
-//                    return
-//                }
-//                groupContentVC.newBlockCreated()
-//            }
-            self.performSegue(withIdentifier: "showBlockContent", sender: nil)
         }
     }
     
@@ -128,16 +113,15 @@ class AddBlockVC: UIViewController {
     }
     
     // MARK: - Navigation
-    
-    // In a storyboard-based application, you will often want to do a little preparation before navigation
-    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-        // Get the new view controller using segue.destination.
-        if segue.identifier == "showBlockContent", let blockContentVC = segue.destination as? BlockContentVC{
-            blockContentVC.URLString = inputURL
-        }
-    }
+    /*
+     // In a storyboard-based application, you will often want to do a little preparation before navigation
+     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
+     // Get the new view controller using segue.destination.
+     }
+     */
 }
 
+// MARK: textField delegate
 extension AddBlockVC: UITextFieldDelegate {
     // 按enter時
     func textFieldShouldReturn(_ textField: UITextField) -> Bool {

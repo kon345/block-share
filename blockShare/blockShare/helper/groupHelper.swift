@@ -17,6 +17,7 @@ struct Group: Codable {
     var creatorID: Int
     var category : [String]
     var memberCount: Int
+    var groupCode: String
     
     init(from decoder: Decoder) throws {
         let container = try decoder.container(keyedBy: CodingKeys.self)
@@ -34,6 +35,7 @@ struct Group: Codable {
         }
         
         memberCount = try container.decode(Int.self, forKey: .memberCount)
+        groupCode = try container.decode(String.self, forKey: .groupCode)
     }
 }
 
@@ -44,14 +46,17 @@ class GroupHelper{
     private let creatorIDKey = "creatorID"
     private let groupCodeKey = "groupCode"
     private let createGroupURL = "http://localhost:8888/blockShare/createGroup.php"
-    private let getGroupListURL = "http://localhost:8888/blockShare/getGroupList.php?userID="
+    private let getGroupListURL = "http://localhost:8888/blockShare/getGroupList.php"
     private let joinGroupURL = "http://localhost:8888/blockShare/joinGroup.php"
     
     static let shared = GroupHelper()
     private init(){}
     
+    // 群組列表資料
     var groupListData:[Group] = []
+    // 當前選到的群組編號
     var currentGroupIndex: Int = 0
+    // 當前選到的群組資料
     var currentGroupData: Group? {
         return groupListData.count > 0 ? groupListData[currentGroupIndex] : nil
     }
@@ -74,6 +79,10 @@ class GroupHelper{
         Communicator.shared.doGet(getGroupListURL, parameters: parameters, completion: completion)
     }
     
+    // 群組碼加入群組
+    // @param userID
+    // @param groupCode
+    // @param completion
     func joinGroup(userID:Int, groupCode:String, completion: @escaping DoneHandler<GroupCode>){
         let parameters: [String : Any] = [userIDKey: userID, groupCodeKey: groupCode]
         Communicator.shared.doPost(joinGroupURL, parameters: parameters, completion: completion)

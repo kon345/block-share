@@ -46,16 +46,17 @@ class userHelper{
         return result
     }
     private let saltLength = 16
+    private let userIDKey = "userID"
     private let userNameKey = "username"
     private let accountKey = "account"
     private let passwordKey = "password"
     private let tokenKey = "token"
     private let createUserURL = "http://localhost:8888/blockShare/createUser.php"
-    private let getUserIDURL = "http://localhost:8888/blockShare/getUserID.php?account="
+    private let getUserIDURL = "http://localhost:8888/blockShare/getUserID.php"
     private let checkAccountDuplicateURL = "http://localhost:8888/blockShare/checkAccountDuplicate.php?account="
     private let userLoginURL = "http://localhost:8888/blockShare/userLogin.php"
     private let tokenLoginURL = "http://localhost:8888/blockShare/tokenLogin.php"
-    
+    private let deleteAccountURL = "http://localhost:8888/blockShare/deleteUser.php"
     
     static let shared = userHelper()
     private init(){}
@@ -102,6 +103,15 @@ class userHelper{
         Communicator.shared.doPost(tokenLoginURL, parameters: parameters, completion: completion)
     }
     
+    // 刪除使用者
+    // @param token
+    // @param userID
+    // @param password
+    func deleteUser(token:String, userID: Int, password: String, completion: @escaping DoneHandler<UserID>){
+        let parameters : [String : Any] = [tokenKey: token, userIDKey: userID, passwordKey: password]
+        Communicator.shared.doPost(deleteAccountURL, parameters: parameters, completion: completion)
+    }
+    
     //MARK: 加密
     
     // 取得儲存的salt或生成新的
@@ -142,7 +152,7 @@ class userHelper{
                 }
             }
             
-            // 将哈希数据转换为十六进制字符串
+            // 將資料轉換為十六進制字串
             let hashString = hashData.map { String(format: "%02hhx", $0) }.joined()
             return hashString
         }
@@ -151,6 +161,7 @@ class userHelper{
     //MARK: Token
     
     // 儲存登入token
+    // @param token
     func saveToken(token: String){
         let keychain = Keychain(service: "general.service")
         let token = token.encryptBase64(key: masterKey)
@@ -164,5 +175,11 @@ class userHelper{
             return token
         }
         return nil
+    }
+    
+    // 清除已儲存的Token
+    func clearToken(){
+        let keychain = Keychain(service: "general.service")
+        keychain[string: "token"] = nil
     }
 }

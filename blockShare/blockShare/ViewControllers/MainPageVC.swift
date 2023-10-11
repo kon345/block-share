@@ -8,24 +8,42 @@
 import UIKit
 
 class MainPageVC: UIViewController {
+    // 登入/註冊 頁籤
     var currentPageTag = pageTag.register
+    // 帳號重複檢查結果
     var isAccountDuplicated = false
     
     enum textMessage : String {
+        case deleteAccountWarning = "刪除帳號警告"
+        case confirmDeleteAccount = "確定刪除帳號嗎？\n請輸入密碼來確認刪除"
+        case accountCanOnlyContainAlpNum = "帳號只能包含英數字"
+        case passwordValidWarning = "密碼必須為包含大小寫8碼以上英數字符號"
+        case accountPlaceholder = "限定英數字"
+        case passwordPlaceholder = "包含大小寫8碼以上英數字符號"
         case usernameCannotbeEmpty = "暱稱不可為空"
         case accountCannotbeEmpty = "帳號不可為空"
         case passwordCannotbeEmpty = "密碼不可為空"
         case accountIsDuplicated = "帳號重複"
         case enterCodeTitle = "群組碼"
         case enterCodeMessage = "請輸入群組碼"
+        case confirm = "確定"
         case send = "送出"
         case cancel = "取消"
         case members = "名成員"
+        case getGroupListFailed = "無法取得群組列表"
+        case deleteAccountFailed = "刪除帳號失敗"
+        case joinGroupSuccess = "加入群組成功"
+        case joinGroupFailed = "加入群組失敗"
+        case registerFailed = "註冊失敗"
+        case registerSuccessPleaseLogin = "註冊成功，請輸入帳號密碼登入。"
+        case loginFailed = "登入失敗"
     }
     
+    // constraint調整常數
     enum moveConstants : CGFloat {
         case groupSelectionNewTop = 100
         case groupSelectionNewBottom = 200
+        case groupSelectionOriginalBottom = 10
     }
     
     enum pageTag{
@@ -41,6 +59,8 @@ class MainPageVC: UIViewController {
     @IBOutlet weak var groupSelectionView: UIView!
     @IBOutlet weak var groupSelectionTopConstraint: NSLayoutConstraint!
     @IBOutlet weak var groupSelectionBtmConstraint: NSLayoutConstraint!
+    // 刪除帳號按鈕
+    @IBOutlet weak var deleteAccountBtn: UIButton!
     // 註冊按鈕
     @IBOutlet weak var registerBtn: UIButton!
     // 登入按鈕
@@ -60,21 +80,19 @@ class MainPageVC: UIViewController {
     // 密碼警告文字
     @IBOutlet weak var passwordWarningLabel: UILabel!
     // 群組列表
+    @IBOutlet weak var sendBtn: UIButton!
+    @IBOutlet weak var groupCodeBtn: UIButton!
+    @IBOutlet weak var createGroupBtn: UIButton!
     @IBOutlet weak var groupListTableView: UITableView!
     override func viewDidLoad() {
         super.viewDidLoad()
+        // 隱藏backButton(不讓回到上一層PreloadVC)
         navigationItem.hidesBackButton = true
-        // 未登入隱藏群組列表
-        groupSelectionView.isHidden = true
         
         // 隱藏警告文字
         usernameWarningLabel.isHidden = true
         accountWarningLabel.isHidden = true
         passwordWarningLabel.isHidden = true
-        
-        // 設定初始選取按鈕
-        registerBtn.layer.borderWidth = 2
-        registerBtn.layer.borderColor = UIColor.black.cgColor
         
         // 設定輸入框delegate
         usernameInputArea.delegate = self
@@ -85,15 +103,33 @@ class MainPageVC: UIViewController {
         groupListTableView.dataSource = self
         groupListTableView.delegate = self
         
+        // UI依照登入狀況改變
         if userHelper.shared.isLoggined{
-            // 隱藏登入顯示群組列表
-            loginGroupView.isHidden = true
-            groupSelectionView.isHidden = false
-            // 群組列表上移
-            groupSelectionTopConstraint.isActive = false
-            groupSelectionView.topAnchor.constraint(equalTo: self.view.topAnchor, constant: moveConstants.groupSelectionNewTop.rawValue).isActive = true
-            groupSelectionBtmConstraint.constant = 200
+            afterLoginUIChange()
+        } else {
+            beforeLoginUIChange()
         }
+        
+        // 背景按鈕樣式處理
+        commonHelper.shared.assignbackground(view: self.view, backgroundName: "MainPageBackground")
+        navigationController?.navigationBar.tintColor = UIColor.purple
+        commonHelper.shared.setPurpleOrangeBtn(button: registerBtn)
+        commonHelper.shared.setPurpleOrangeBtn(button: loginBtn)
+        commonHelper.shared.setPurpleOrangeBtn(button: sendBtn)
+        commonHelper.shared.setPurpleOrangeBtn(button: createGroupBtn)
+        commonHelper.shared.setPurpleOrangeBtn(button: groupCodeBtn)
+        let backgroundImage = UIImage(named: "GroupListTableViewBackground")
+        let backgroundImageView = UIImageView(image: backgroundImage)
+        groupListTableView.backgroundView = backgroundImageView
+        
+        // 設定初始選取按鈕
+        registerBtn.layer.borderWidth = 2
+        registerBtn.layer.borderColor = UIColor.black.cgColor
+        accountInputArea.placeholder = textMessage.accountPlaceholder.rawValue
+        passwordInputArea.placeholder = textMessage.passwordPlaceholder.rawValue
+        // 回復方角
+        registerBtn.layer.cornerRadius = 0
+        loginBtn.layer.cornerRadius = 0
     }
     
     override func viewDidAppear(_ animated: Bool) {
@@ -105,12 +141,26 @@ class MainPageVC: UIViewController {
                     print("Get group list Failed: \(error)")
                     return
                 }
-                guard let groupList = result?.content else{
-                    assertionFailure("No group list")
+                
+                // 自訂error處理
+                if result?.response.success == false, let errorCode = result?.response.errorCode{
+                    DispatchQueue.main.async {
+                        let alert = commonHelper.shared.createAlert(title: textMessage.getGroupListFailed.rawValue, message: handleResponseError(errorMessage: errorCode), buttonTitle: textMessage.confirm.rawValue)
+                        self.present(alert, animated: true)
+                    }
                     return
                 }
+                
+                // 取得群組列表資料
+                guard let groupList = result?.content else{
+                    print("No group list")
+                    return
+                }
+                
+                // 儲存群組列表資料
                 GroupHelper.shared.groupListData = groupList
                 DispatchQueue.main.async {
+                    // 刷新列表
                     self.groupListTableView.reloadData()
                 }
             }
@@ -123,10 +173,14 @@ class MainPageVC: UIViewController {
             return
         }
         clearAlltextField()
+        // 切換頁籤、UI
         currentPageTag = pageTag.register
+        // 顯示暱稱欄位
         usernameLabel.isHidden = false
         usernameInputArea.isHidden = false
         usernameInputArea.isHidden = false
+        accountInputArea.placeholder = textMessage.accountPlaceholder.rawValue
+        passwordInputArea.placeholder = textMessage.passwordPlaceholder.rawValue
         registerBtn.layer.borderWidth = 2
         registerBtn.layer.borderColor = UIColor.black.cgColor
         loginBtn.layer.borderWidth = 0
@@ -138,10 +192,14 @@ class MainPageVC: UIViewController {
             return
         }
         clearAlltextField()
+        // 切換頁籤、UI
         currentPageTag = pageTag.login
+        // 隱藏暱稱欄位
         usernameLabel.isHidden = true
         usernameInputArea.isHidden = true
         usernameInputArea.isHidden = true
+        accountInputArea.placeholder = ""
+        passwordInputArea.placeholder = ""
         loginBtn.layer.borderWidth = 2
         loginBtn.layer.borderColor = UIColor.black.cgColor
         registerBtn.layer.borderWidth = 0
@@ -157,15 +215,54 @@ class MainPageVC: UIViewController {
         }
     }
     
+    // 刪除帳號按鈕按下
+    @IBAction func deleteAccountBtnPressed(_ sender: Any) {
+        let deleteAccountConfirmAlert = UIAlertController(title: textMessage.deleteAccountWarning.rawValue, message: textMessage.confirmDeleteAccount.rawValue, preferredStyle: .alert)
+        deleteAccountConfirmAlert.addTextField { textField in
+            textField.isSecureTextEntry = true
+        }
+        let confirm = UIAlertAction(title: textMessage.confirm.rawValue, style: .default) { action in
+            guard let password = deleteAccountConfirmAlert.textFields?.first?.text,
+                  let token = userHelper.shared.getToken(),
+                  let hashedContent = userHelper.shared.hashPassword(password: password) else {
+                return
+            }
+            
+            userHelper.shared.deleteUser(token:token , userID: userHelper.shared.userID , password: hashedContent) { result, error in
+                if let error = error {
+                    print("Delete User error: \(error)")
+                    return
+                }
+                
+                // 自訂error處理
+                if result?.response.success == false, let errorCode = result?.response.errorCode{
+                    DispatchQueue.main.async {
+                        let alert = commonHelper.shared.createAlert(title: textMessage.deleteAccountFailed.rawValue, message: handleResponseError(errorMessage: errorCode), buttonTitle: textMessage.confirm.rawValue)
+                        self.present(alert, animated: true)
+                    }
+                    return
+                }
+                
+                // 刪除keyChain的Token
+                userHelper.shared.clearToken()
+                DispatchQueue.main.async {
+                    self.beforeLoginUIChange()
+                }
+                
+            }
+        }
+        let cancel = UIAlertAction(title: textMessage.cancel.rawValue, style: .cancel)
+        deleteAccountConfirmAlert.addAction(confirm)
+        deleteAccountConfirmAlert.addAction(cancel)
+        self.present(deleteAccountConfirmAlert, animated: true)
+    }
+    
     // 輸入群組碼按鈕按下
     @IBAction func groupCodeBtnPressed(_ sender: Any) {
         let enterCodeAlert = UIAlertController(title: textMessage.enterCodeTitle.rawValue, message: textMessage.enterCodeMessage.rawValue, preferredStyle: .alert)
-        // TODO: autoLayout報錯
         enterCodeAlert.addTextField()
-        let confirm = UIAlertAction(title: textMessage.send.rawValue, style: .default) { action in
-            // TODO: 送出加入群組request
+        let send = UIAlertAction(title: textMessage.send.rawValue, style: .default) { action in
             guard let groupCode = enterCodeAlert.textFields?.first?.text else{
-                print("no groupCode input")
                 return
             }
             GroupHelper.shared.joinGroup(userID: userHelper.shared.userID, groupCode: groupCode) { result, error in
@@ -173,37 +270,58 @@ class MainPageVC: UIViewController {
                     print("join group failed: \(error)")
                     return
                 }
+                
+                // 自訂error處理
+                if result?.response.success == false, let errorCode = result?.response.errorCode{
+                    DispatchQueue.main.async {
+                        let alert = commonHelper.shared.createAlert(title: textMessage.joinGroupFailed.rawValue, message: handleResponseError(errorMessage: errorCode), buttonTitle: textMessage.confirm.rawValue)
+                        self.present(alert, animated: true)
+                    }
+                    return
+                }
+                // 重新抓取群組列表
                 self.viewDidAppear(false)
+                DispatchQueue.main.async {
+                    commonHelper.shared.showToastGlobal(message: textMessage.joinGroupSuccess.rawValue)
+                }
             }
         }
         let cancel = UIAlertAction(title: textMessage.cancel.rawValue, style: .cancel)
-        enterCodeAlert.addAction(confirm)
+        enterCodeAlert.addAction(send)
         enterCodeAlert.addAction(cancel)
         self.present(enterCodeAlert, animated: true)
     }
     
-    // 創建新群組按鈕按下
-    @IBAction func createGroupBtnPressed(_ sender: Any) {
-    }
-    
-    // 檢查所有輸入資料是否為空
+    // 檢查所有輸入資料是否合規定(註冊）
     func validateAllInput() -> Bool{
+        var isValid = true
         // 沒有輸入暱稱警告＆返回
         if(textFieldEmptyWarning(textfield: usernameInputArea, warningLabel: usernameWarningLabel, warningText: textMessage.usernameCannotbeEmpty.rawValue)){
-            return false
+            isValid = false
         }
         // 沒有輸入帳號警告＆返回
         if textFieldEmptyWarning(textfield: accountInputArea, warningLabel: accountWarningLabel, warningText: textMessage.accountCannotbeEmpty.rawValue){
-            return false
+            isValid = false
         }
         // 沒有輸入密碼警告＆返回
         if textFieldEmptyWarning(textfield: passwordInputArea, warningLabel: passwordWarningLabel, warningText: textMessage.passwordCannotbeEmpty.rawValue) {
-            return false
+            isValid = false
         }
-        return true
+        
+        if accountInvalidWarning(textField: accountInputArea, warningText: textMessage.accountCanOnlyContainAlpNum.rawValue){
+            isValid = false
+        }
+        
+        if passwordInvalidWarning(textField: passwordInputArea, warningText: textMessage.passwordValidWarning.rawValue){
+            isValid = false
+        }
+        return isValid
     }
     
-    // 檢查輸入框
+    // 檢查輸入框不為空否則跳警告回傳false
+    // @param textField
+    // @param warningLabel
+    // @param warningText
     func textFieldEmptyWarning(textfield: UITextField, warningLabel: UILabel, warningText:String) -> Bool{
         guard let input = textfield.text, input != "" else {
             warningLabel.isHidden = false
@@ -223,24 +341,36 @@ class MainPageVC: UIViewController {
     
     // 送出註冊API
     func handleRegisterAPI(){
+        // 輸入資料驗證失敗不做事
         if validateAllInput() == false {
             return
         }
         
         if let username = usernameInputArea.text, let account = accountInputArea.text, let password = passwordInputArea.text{
             guard let hashResult = userHelper.shared.hashPassword(password: password) else{
-                assertionFailure("hash password Failed")
                 return
             }
-            // 帳號不重複
+            // 帳號不重複才註冊
             if isAccountDuplicated == false{
                 userHelper.shared.createUser(username: username, account: account, password: hashResult){ result, error in
                     if let error = error{
                         print("Create User Failed: \(error)")
                         return
                     }
+                    
+                    // 自訂error處理
+                    if result?.response.success == false, let errorCode = result?.response.errorCode{
+                        DispatchQueue.main.async {
+                            let alert = commonHelper.shared.createAlert(title: textMessage.registerFailed.rawValue, message: handleResponseError(errorMessage: errorCode), buttonTitle: textMessage.confirm.rawValue)
+                            self.present(alert, animated: true)
+                        }
+                        return
+                    }
+                    
                     DispatchQueue.main.async {
+                        // 切換到登入頁籤
                         self.loginBtnPressed(self.loginBtn!)
+                        commonHelper.shared.showToastGlobal(message: textMessage.registerSuccessPleaseLogin.rawValue)
                     }
                 }
             }
@@ -259,7 +389,6 @@ class MainPageVC: UIViewController {
         
         if let account = accountInputArea.text, let password = passwordInputArea.text{
             guard let hashResult = userHelper.shared.hashPassword(password: password) else{
-                assertionFailure("hash password Failed")
                 return
             }
             userHelper.shared.login(account: account, password: hashResult) { result, error in
@@ -267,11 +396,24 @@ class MainPageVC: UIViewController {
                     print("login error:\(error)")
                     return
                 }
+                
+                // 自訂error處理
+                if result?.response.success == false, let errorCode = result?.response.errorCode{
+                    DispatchQueue.main.async {
+                        let alert = commonHelper.shared.createAlert(title: textMessage.loginFailed.rawValue, message: handleResponseError(errorMessage: errorCode), buttonTitle: textMessage.confirm.rawValue)
+                        self.present(alert, animated: true)
+                    }
+                    return
+                }
+                
+                // 儲存token
                 guard let token = result?.content?.token else{
                     print("no token received!")
                     return
                 }
                 userHelper.shared.saveToken(token: token)
+                
+                // 儲存userID
                 guard let userID = result?.content?.userID else{
                     print("no userID received!")
                     return
@@ -279,15 +421,78 @@ class MainPageVC: UIViewController {
                 userHelper.shared.userID = userID
                 userHelper.shared.isLoggined = true
                 DispatchQueue.main.async {
-                    // 隱藏登入顯示群組列表
-                    self.loginGroupView.isHidden = true
-                    self.groupSelectionView.isHidden = false
-                    // 群組列表上移
-                    self.groupSelectionTopConstraint.isActive = false
-                    self.groupSelectionView.topAnchor.constraint(equalTo: self.view.topAnchor, constant: moveConstants.groupSelectionNewTop.rawValue).isActive = true
-                    self.groupSelectionBtmConstraint.constant = 200
+                    self.clearAlltextField()
+                    self.afterLoginUIChange()
                 }
             }
+        }
+    }
+    
+    // 登入後UI轉換
+    func afterLoginUIChange(){
+        // 隱藏登入顯示群組列表
+        loginGroupView.isHidden = true
+        groupSelectionView.isHidden = false
+        // 群組列表上移
+        if groupSelectionTopConstraint != nil{
+            groupSelectionTopConstraint.isActive = false
+        }
+        groupSelectionView.topAnchor.constraint(equalTo: self.view.topAnchor, constant: moveConstants.groupSelectionNewTop.rawValue).isActive = true
+        groupSelectionBtmConstraint.constant = moveConstants.groupSelectionNewBottom.rawValue
+        deleteAccountBtn.isHidden = false
+        deleteAccountBtn.isEnabled = true
+    }
+    
+    // 登入前UI轉換
+    func beforeLoginUIChange(){
+        // 隱藏登入顯示群組列表
+        loginGroupView.isHidden = false
+        groupSelectionView.isHidden = true
+        // 群組列表上移
+        groupSelectionBtmConstraint.constant = moveConstants.groupSelectionOriginalBottom.rawValue
+        deleteAccountBtn.isHidden = true
+        deleteAccountBtn.isEnabled = false
+    }
+    
+    func isAccountValid(input: String) -> Bool {
+        let alphanumericRegex = "^[a-zA-Z0-9]+$"
+        let alphanumericTest = NSPredicate(format: "SELF MATCHES %@", alphanumericRegex)
+        return alphanumericTest.evaluate(with: input)
+    }
+    
+    func accountInvalidWarning(textField:UITextField, warningText: String) -> Bool{
+        guard let input = textField.text else {
+            return true
+        }
+        if isAccountValid(input: input){
+            accountWarningLabel.isHidden = true
+            accountWarningLabel.text = ""
+            return false
+        } else {
+            accountWarningLabel.isHidden = false
+            accountWarningLabel.text = warningText
+            return true
+        }
+    }
+    
+    func isValidPassword(input: String) -> Bool {
+        let passwordRegex = "^(?=.*[A-Za-z])(?=.*\\d)[A-Za-z\\d$@$#!%*?&]{8,}$"
+        let passwordTest = NSPredicate(format: "SELF MATCHES %@", passwordRegex)
+        return passwordTest.evaluate(with: input)
+    }
+    
+    func passwordInvalidWarning(textField:UITextField, warningText: String) -> Bool{
+        guard let input = textField.text else {
+            return true
+        }
+        if isValidPassword(input: input){
+            passwordWarningLabel.isHidden = true
+            passwordWarningLabel.text = ""
+            return false
+        } else {
+            passwordWarningLabel.isHidden = false
+            passwordWarningLabel.text = warningText
+            return true
         }
     }
     // MARK: - Navigation
@@ -298,11 +503,10 @@ class MainPageVC: UIViewController {
         // Pass the selected object to the new view controller.
         if segue.identifier == "goToGroup", let groupContentVC = segue.destination as? GroupContentVC, let indexPath = groupListTableView.indexPathForSelectedRow{
             groupContentVC.currentGroupID = GroupHelper.shared.groupListData[indexPath.row].groupID
-            print(groupContentVC.currentGroupID)
         }
     }
-    
 }
+
 
 //MARK: textField delegate
 extension MainPageVC: UITextFieldDelegate{
@@ -330,7 +534,15 @@ extension MainPageVC: UITextFieldDelegate{
             if textFieldEmptyWarning(textfield: textField, warningLabel: accountWarningLabel, warningText: textMessage.accountCannotbeEmpty.rawValue){
                 return true
             }
-            // 註冊時呼叫api檢查帳號是否重複
+            
+            // 帳號不合法警告(註冊)
+            if currentPageTag == .register{
+                if accountInvalidWarning(textField: textField, warningText: textMessage.accountCanOnlyContainAlpNum.rawValue){
+                    return true
+                }
+            }
+            
+            // 完成帳號輸入時呼叫api檢查帳號是否重複
             if currentPageTag == pageTag.register{
                 userHelper.shared.checkAccountDuplicate(account: text) { result, error in
                     if let error = error{
@@ -354,8 +566,16 @@ extension MainPageVC: UITextFieldDelegate{
                 }
             }
         case passwordInputArea:
+            // 沒有輸入密碼警告
             if textFieldEmptyWarning(textfield: textField, warningLabel: passwordWarningLabel, warningText: textMessage.passwordCannotbeEmpty.rawValue) {
                 return true
+            }
+            
+            // 密碼不合法警告(註冊)
+            if currentPageTag == .register{
+                if passwordInvalidWarning(textField: textField, warningText: textMessage.passwordValidWarning.rawValue){
+                    return true
+                }
             }
         default:
             return true;
