@@ -1,0 +1,22 @@
+{
+  "images" : [
+    {
+      "filename" : "Blue and Green Soft Watercolor No Copy Phone Wallpaper.png",
+      "idiom" : "universal",
+      "scale" : "1x"
+    },
+    {
+      "filename" : "Blue and Green Soft Watercolor No Copy Phone Wallpaper 1.png",
+      "idiom" : "universal",
+      "scale" : "2x"
+    },
+    {
+      "idiom" : "universal",
+      "scale" : "3x"
+    }
+  ],
+  "info" : {
+    "author" : "xcode",
+    "version" : 1
+  }
+}
